@@ -1,0 +1,59 @@
+<prop name="name" [value]="root.name" />
+<prop name="syntaxType" [value]="root.syntaxType" />
+@if (options.showComments) {
+<prop name="comment" [value]="root.comment" />
+}
+
+@if (root.fields) {
+<div>Fields:</div>
+<div style="margin-left: 10px">
+  @for (item of root.fields | keyvalue; track $index) {
+  @let value = $any(item.value);
+  @let type = value?.type;
+
+  <div>
+    <div style="font-weight: bold">{{ item.key }}</div>
+    <div style="margin-left: 10px">
+      <prop name="required" [value]="value.required" />
+      <prop name="rule" [value]="value.rule" />
+
+      <!-- Type Info -->
+      @if (options.showTypeInfo) {
+      <div class="type-container">
+        <prop name="type" [value]="type.value" />
+        <prop name="syntaxType" [value]="type.syntaxType" />
+        <prop name="resolvedValue" [value]="type.resolvedValue" />
+      </div>
+      }
+
+      <div>
+        @if (value.type?.resolvedValue) {
+          @if(protoService.objectMap[type.resolvedValue]) {
+            <proto-type [root]="protoService.objectMap[type.resolvedValue]"></proto-type>
+          } @else {
+            Type not found. External?
+          }
+        }
+      </div>
+    </div>
+  </div>
+  }
+</div>
+}
+
+@if (root.syntaxType === "EnumDefinition") {
+<div>Values:</div>
+
+<select>
+  @for (valueObj of root.values | keyvalue; track $index) {
+  <option [value]="valueObj.key">{{ valueObj.key }}</option>
+  }
+</select>
+} @else {
+@if (root.values) {
+<div>Values:</div>
+@for (valueObj of root.values | keyvalue; track $index) {
+{{ valueObj.key }}
+}
+}
+}

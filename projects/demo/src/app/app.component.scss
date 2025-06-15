@@ -1,0 +1,35 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+
+    .header {
+        padding: 5px;
+    }
+
+    .content {
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex: 1;
+        gap: 30px;
+        padding: 5px;
+    }
+}
+
+.proto-list-item {
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 3px;
+
+    &:hover {
+        background: blue;
+        color: #fff;
+    }
+
+    &.selected {
+        background: blue;
+        color: #fff;
+    }
+}

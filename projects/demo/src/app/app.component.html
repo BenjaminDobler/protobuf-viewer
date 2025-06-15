@@ -1,0 +1,40 @@
+<div class="header">
+  <button (click)="protoService.openProto()">Open Proto</button>
+</div>
+
+<div class="content">
+  <div>
+    <h2>Types:</h2>
+    @for (object of protoService.objectMap | keyvalue; track $index) {
+    <div class="proto-list-item" [class.selected]="protoService.rootObjectName==$any(object).key"
+      (click)="protoService.rootObjectName = $any(object).key">
+      {{ object.key }}
+    </div>
+    }
+  </div>
+
+  <div style="display: flex;flex-direction: column;">
+    <h2>Selected Type {{ protoService.rootObjectName }}</h2>
+
+    <div style="overflow: scroll;">
+      @if (protoService.rootObjectName !== "") {
+      @if (protoService.objectMap[protoService.rootObjectName]) {
+      <proto-type [root]="protoService.objectMap[protoService.rootObjectName]"></proto-type>
+      }
+      }
+    </div>
+  </div>
+
+  <div>
+    <h2>Options</h2>
+    <div>
+      <label>Show Type</label>
+      <input type="checkbox" [(ngModel)]="options.showTypeInfo" />
+    </div>
+
+    <div>
+      <label>Show Comments</label>
+      <input type="checkbox" [(ngModel)]="options.showComments" />
+    </div>
+  </div>
+</div>
